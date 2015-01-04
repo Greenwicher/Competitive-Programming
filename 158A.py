@@ -6,11 +6,10 @@ http://codeforces.com/problemset/problem/158/A
 
 """
 
-[n, k] = raw_input().split(' ')
-score = raw_input().split(' ')
-
-print len([i for i in score if i<score[k-1]])
-
+# version 1
+n,k = map(int, raw_input().split())
+score = map(int, raw_input().split())
+print len(filter(lambda x:x>0 and x>=score[k-1], score))
 
 
 
