@@ -7,6 +7,8 @@ http://codeforces.com/problemset/problem/4/A
 
 """
 
+
+
 # version 1
 input = int(raw_input())
 
