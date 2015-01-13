@@ -14,3 +14,7 @@ for i in range(len(seq)-n+1):
 print diff
 
 ## version 2
+I=lambda:map(int,raw_input().split())
+n,m=I()
+f=sorted(I())
+print min(j-i for i,j in zip(f,f[n-1:]))
