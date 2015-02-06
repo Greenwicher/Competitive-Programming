@@ -35,6 +35,22 @@ for i in range(2,m):
     k[i]=[b[i][0],k[i-1]][(b[i][0]==b[i-1][0]+1)and(k[i-1]==b[i-1][0])and(d[i-1]>d[i-2]+b[i][0]*b[i][1])]
 print d[-1]
 
+## version 3.1
+n=input();a={}
+for i in map(int,raw_input().split()):
+    if i in a:
+        a[i]+=1
+    else:
+        a[i]=1
+b=sorted([[0,0],[0,0]]+[[i,a[i]] for i in a])
+m=len(b)
+d=[0 for i in range(m)]
+k=[0 for i in range(m)]
+for i in range(2,m):
+    d[i]=max(d[i-2]+b[i][0]*b[i][1],d[i-1]+b[i][0]*b[i][1]*(1-((b[i][0]==b[i-1][0]+1)and(k[i-1]==b[i-1][0]))))
+    k[i]=[b[i][0],k[i-1]][(b[i][0]==b[i-1][0]+1)and(k[i-1]==b[i-1][0])and(d[i-1]>d[i-2]+b[i][0]*b[i][1])]
+print d[-1]
+
 ## version 4 (large space for short time)
 n=input()
 a=[0 for _ in range(10**5+1)]
