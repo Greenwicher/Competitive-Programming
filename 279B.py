@@ -32,7 +32,7 @@ print ans
 
 
 ## version 3
-''' same with version but more elegant '''
+''' same with version 2 but more elegant '''
 R=lambda:map(int,raw_input().split())
 n,t=R()
 a=R()
