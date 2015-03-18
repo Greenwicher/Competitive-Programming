@@ -44,3 +44,5 @@ c={}
 for x in raw_input():c[x]=c.get(x,0)^1
 k=sum(c.values())
 print ('Second','First')[k<1 or k&1]
+
+
