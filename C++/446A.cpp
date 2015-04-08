@@ -58,6 +58,7 @@ int main()
 }
 */
 
+/*
 // version 2
 #include<iostream>
 using namespace std;
@@ -86,4 +87,43 @@ int main()
   }
 
   cout<<ans<<endl;
+}
+*/
+
+// version 3
+// greedy and enumerate
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int main()
+{
+  int n,ans=1;
+  cin>>n;
+  vector<int> a,b;
+  a.push_back(-1);
+  b.push_back(1);
+  for(int i=1;i<n+1;++i){
+    int ai;cin>>ai;
+    a.push_back(ai);
+    if(a[i]<=a[i-1]){
+      b.push_back(i);
+    }
+  }
+  a.push_back(100002);
+  b.push_back(n+1);
+  for(int i=1;i<(b.size()-1);++i){
+    int k=b[i];
+    if((a[k+1]-1>a[k-1])||(a[k]-1>a[k-2])){
+      ans=max(ans,b[i+1]-b[i-1]);
+    }
+    ans=max(ans,b[i]-b[i-1]+1);
+    ans=max(ans,b[i+1]-b[i]+1);
+  }
+  if(b.size()==2){ans=n;}
+  cout<<ans<<endl;
+
+  //for(int i=0;i<b.size();++i){cout<<b[i]<<" ";}
+  //cout<<endl;
+
 }
