@@ -5,7 +5,7 @@ Created on Sun Mar 22 11:43:52 2015
 @author: liuweizhi
 """
 
-## version 1
+# version 1
 I=lambda:list(map(int,input().split()))
 n,m=I();a=sorted(I());b=[]
 for i in a:b+=list(range(1,i+1))
