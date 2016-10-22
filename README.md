@@ -1,4 +1,4 @@
-CodeForces
+Competitive Programming
 ==========
 
-practice for CodeForces (http://codeforces.com/)
+solutions for various competitive programming
