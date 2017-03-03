@@ -42,54 +42,28 @@ class FileParser:
             self.fd.close()
         self.fd = None
 
-def MultiThread(fun,input):
-    from multiprocessing.dummy import Pool as ThreadPool
-    pool = ThreadPool()
-    results = pool.starmap(fun,input)
-    pool.close()
-    pool.join()
-    return list(filter(None.__ne__, results))
-
-
 ### specify the problem meta information ###
 problemID = "D" # A, B, C, D...
 problemSize = "small" # small, large, local
 filename = "%s-%s-practice" % (problemID, problemSize)
 
 ### the algorithm that solve the cases ###
-def cost(level, C):
-    return sum([C[i][level[i]-1] for i in range(len(level))])
-
-def attack(level, A):
-    return sum([A[i][level[i]] for i in range(len(level))])
-
-def evaluate(level):
-    c = cost(level, C)
-    a = attack(level, A)
-    print(c,a)
-    return [c,a]
-
 def solve(M, N, K, L, A, C):
     # record the start timing
     t = time.time()
-    timing.append(time.time())
-    import itertools
-    level = [[j for j in range(L[i], K[i]+1)] for i in range(N)]
-    combinations = itertools.product(*level)
-    maxattack = -1
+    # calculate the cumulative cost matrix from current level
     for i in range(N):
-        for j in range(1, len(C[i])):
-            C[i][j] += C[i][j-1]
-    cost0 = cost(L, C)
-    fc, fa = cost, attack
-    for foo in combinations:
-        cost1 = fc(foo, C)
-        attack1 = fa(foo, A)
-        if cost1 - cost0 <= M and attack1 > maxattack:
-            maxattack = attack1
-    timing.append(time.time())
+        for level in range(L[i], K[i]-1):
+            C[i][level] += C[i][level - 1]
+    dp = [[0 for _ in range(M + 1)] for _ in range(N + 1)]
+    for i in range(N):
+        c = [0] + C[i][L[i] - 1:]
+        for v in range(M + 1):
+            for k in range(len(c)):
+                if v - c[k] >= 0:
+                    dp[i+1][v] = max(dp[i+1][v], dp[i][v-c[k]] + A[i][k+L[i]-1])
     print("Case: (%d, %d), Elapsed %.2f seconds" % (M, N, time.time() - t))
-    return maxattack
+    return dp[N][M]
 
 ### solve the test cases ###
 # for the purpose of counting the total elapsed time
@@ -102,7 +76,6 @@ f_out = FileParser(filename+".out", "w")
 
 # solve each test case
 T = f_in.read_int()
-case = []
 for caseID in range(1, T+1):
     # read the input data of each case
     # f_in.read_string(), f_in.read_words()
@@ -114,13 +87,12 @@ for caseID in range(1, T+1):
     Aappend, Cappend = A.append, C.append
     for i in range(N):
         K[i], L[i] = f_in.read_integers()
-        Aappend([0]+f_in.read_integers())
-        Cappend([0]+f_in.read_integers())
+        Aappend(f_in.read_integers())
+        Cappend(f_in.read_integers())
 
     ans = solve(M, N, K, L, A, C)
     # print the answer to output file
     context = "Case #%d: %d" % (caseID, ans)
-    print(context, "\t\t Elapsed: %.2f seconds" % (timing[-1] - timing[-2]))
     f_out.write(context)
 
 # close the input / output files
