@@ -43,6 +43,15 @@ class FileParser:
         self.fd = None
 
 
+def MultiThread(fun,input):
+    from multiprocessing.dummy import Pool as ThreadPool
+    pool = ThreadPool()
+    results = pool.starmap(fun,input)
+    pool.close()
+    pool.join()
+    return list(filter(None.__ne__, results))
+
+
 ### specify the problem meta information ###
 problemID = "A" # A, B, C, D...
 problemSize = "local" # small, large, local
