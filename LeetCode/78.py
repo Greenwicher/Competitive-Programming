@@ -38,4 +38,18 @@ class Solution(object):
             res += [x + [item] for x in res]
         return res
 
-
+# Version 3
+class Solution:
+    # @param S, a list of integer
+    # @return a list of lists of integer
+    def subsets(self, S):
+        n = len(S)
+        S = sorted(S)
+        result = []
+        for i in range(1<<n):
+            temp = []
+            for j in range(n):
+                if i & (1<<j) > 0:
+                    temp.append(S[j])
+            result.append(temp)
+        return result
