@@ -1,4 +1,3 @@
-# Version 1, Implementation, O(n) time complexity, O(1) space complexity
 class Solution(object):
     def removeDuplicates(self, nums):
         """
@@ -18,4 +17,5 @@ class Solution(object):
             else:
                 v = nums[i]
                 j = 1
+                i += 1
         return len(nums)
