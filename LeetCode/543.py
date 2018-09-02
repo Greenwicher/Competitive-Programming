@@ -12,6 +12,20 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """
-        
-        return
+        def diameter(root):
+            if root is None:
+                return 0
+            else:
+                return max([diameter(root.left), diameter(root.right), 2+depth(root.left)+depth(root.right)])
 
+        def depth(root):
+            if root in d:
+                return d[root]
+            else:
+                if root is None:
+                    return 0
+                else:
+                    d[root] = max([depth(root.left), depth(root.right)]) + 1
+                    return d[root]
+        d = {}
+        return diameter(root)
