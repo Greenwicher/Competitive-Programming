@@ -43,10 +43,10 @@ class FileParser:
         self.fd = None
 
 
-def MultiThread(fun,input):
+def MultiThread(fun, input):
     from multiprocessing.dummy import Pool as ThreadPool
     pool = ThreadPool()
-    results = pool.starmap(fun,input)
+    results = pool.starmap(fun, input)
     pool.close()
     pool.join()
     return list(filter(None.__ne__, results))
@@ -58,11 +58,15 @@ problemSize = "local" # small, large, local
 filename = "%s-%s-practice" % (problemID, problemSize)
 
 ### the algorithm that solve the cases ###
-def solve():
+globalCaseID = 0
+def solve(case):
     # record the start timing
     timing.append(time.time())
 
     timing.append(time.time())
+    global globalCaseID
+    globalCaseID += 1
+    print("Case %d" % globalCaseID, ans, "\t\t Elapsed: %.2f seconds" % (timing[-1] - timing[-2]))
     return ans
 
 ### solve the test cases ###
@@ -74,22 +78,25 @@ f_in = FileParser(filename+".in", "r")
 f_out = FileParser(filename+".out", "w")
 
 
-# solve each test case
+# parse the input, and store them into cases
+cases = []
 T = f_in.read_int()
-for caseID in range(1, T+1):
+for _ in range(T):
     # read the input data of each case
     # f_in.read_string(), f_in.read_words()
     # f_in.read_int(), f_in.read_integers()
     # f_in.read_float(), f_in.read_floats()
 
+    cases.append()
 
+# solve each test case
+#anses = MultiThread(solve, zip(cases))
+for caseID in range(1, T+1):
     # solve the case
-    ans = solve()
-
+    ans = solve(cases[caseID-1])
+    #ans = anses[caseID-1]
     # print the answer to output file
-    context = "Case #%d: %d" % (caseID, ans)
-    print(context, "\t\t Elapsed: %.2f seconds" % (timing[-1] - timing[-2]))
-    f_out.write(context)
+    f_out.write("Case #%d: %d" % (caseID, ans))
 
 # close the input / output files
 f_in.close()
@@ -98,4 +105,4 @@ f_out.close()
 # output the total elapsed time
 timing.append(time.time())
 total_time = timing[-1] - timing[0]
-print("Total elapsed time: %.2f seconds / %.2f minutes" % ((total_time, total_time/60)))
+print("Total elapsed time: %.2f seconds / %.2f minutes" % (total_time, total_time/60))
